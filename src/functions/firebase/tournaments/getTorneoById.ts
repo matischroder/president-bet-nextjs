@@ -1,7 +1,9 @@
 import { db } from "@/firebaseConfig";
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc } from "firebase/firestore";
 
-
+type Torneo = {
+    nombre: string;
+};
 // Get tournament details by ID
 export const getTorneoById = async (torneoId: string) => {
     try {
@@ -9,7 +11,8 @@ export const getTorneoById = async (torneoId: string) => {
         const docSnap = await getDoc(torneoRef);
 
         if (docSnap.exists()) {
-            return docSnap.data();
+            const torneo: Torneo = docSnap.data() as Torneo;
+            return torneo;
         } else {
             return null;
         }

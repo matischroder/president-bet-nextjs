@@ -1,4 +1,4 @@
-import Home from "@/components/Home";
+import CircleSpinner from "@/components/global/Spinner";
 import Votation from "@/components/prediction/Votation";
 import { getTorneosByUsuario } from "@/functions/firebase/tournaments/getTorneoByUsuario";
 import useAuth from "@/hook/auth";
@@ -16,17 +16,21 @@ const Root = () => {
   const auth = useAuth();
   const [torneos, setTorneos] = useState<Torneo[]>([]);
   const [selectedTorneo, setSelectedTorneo] = useState<Torneo | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchTorneos = async () => {
       try {
         const torneosData = await getTorneosByUsuario(auth.user.uid);
+        console.log(torneosData)
         setTorneos(torneosData); // Store torneos in state
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching torneos:", error);
+        setIsLoading(false);
       }
     };
-
     fetchTorneos();
   }, [auth]);
 
@@ -37,6 +41,7 @@ const Root = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold text-center mb-4">Mis Torneos</h1>
+      {isLoading && <CircleSpinner />}
       {selectedTorneo ?
         <Votation
           torneo={selectedTorneo}

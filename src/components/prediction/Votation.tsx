@@ -80,7 +80,9 @@ export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
                 </div>
                 <button
                     className="bg-gray-800 font-bold py-2 px-4 rounded-lg"
-                    onClick={() => { putPronostico(torneo.id, auth.user.uid, candidateStates.map(candidate => Number(candidate.percentage))) }} >
+                    onClick={() => {
+                        putPronostico(torneo.id, auth.user.uid, candidateStates.map(candidate => Number(candidate.percentage)))
+                    }} >
                     Guardar
                 </button>
             </div>

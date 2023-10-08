@@ -1,6 +1,5 @@
 // pages/ComoJugar.tsx
 
-import { withProtected, withPublic } from '@/hook/route';
 import React from 'react';
 
 const ComoJugar: React.FC = () => {
@@ -20,4 +19,4 @@ const ComoJugar: React.FC = () => {
     );
 };
 
-export default withPublic(ComoJugar);
+export default ComoJugar;

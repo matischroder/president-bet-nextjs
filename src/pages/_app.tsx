@@ -4,6 +4,7 @@ import { AuthProvider } from "@/hook/auth";
 import AuthStateChanged from "@/layout/AuthStateChange";
 import { useState } from "react";
 import Navbar from "@/components/global/Navbar";
+import { Toaster } from "sonner";
 
 export default function App({ Component, pageProps }: AppProps) {
   // logic to open navbar
@@ -51,7 +52,8 @@ export default function App({ Component, pageProps }: AppProps) {
               isOpen={isOpen}
               setIsOpen={setIsOpen}
             />
-            <Component {...pageProps} />
+            <Component  {...pageProps} />
+            <Toaster />
           </div>
         </div>
       </AuthStateChanged>

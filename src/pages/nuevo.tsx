@@ -1,19 +1,39 @@
 // pages/NuevoTorneo.tsx
 
+import { postTorneo } from '@/functions/firebase/tournaments/postTorneo';
 import { withProtected } from '@/hook/route';
 import React, { useState } from 'react';
 
 const NuevoTorneo: React.FC = () => {
     const [nombreTorneo, setNombreTorneo] = useState('');
+    const [idNuevoTorneo, setIdNuevoTorneo] = useState('');
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNombreTorneo(e.target.value);
     };
 
-    const handleCrearClick = () => {
-        // Implementa la lógica para crear un nuevo torneo aquí
-        console.log(`Creando un nuevo torneo con el nombre: ${nombreTorneo}`);
-        // Puedes hacer una solicitud a tu servidor o realizar cualquier otra acción necesaria.
+    const handleCrearClick = async () => {
+        try {
+            const id = await postTorneo(nombreTorneo);
+            setIdNuevoTorneo(id);
+        } catch (error) {
+            if (error instanceof Error) {
+                // Handle the specific error types here
+                if (error.message === "User not found") {
+                    // Handle the "User not found" error
+                    // Display an appropriate error message to the user
+                } else if (error.message === "You have reached the limit of 25 tournaments") {
+                    // Handle the "Tournament limit reached" error
+                    // Display an appropriate error message to the user
+                } else {
+                    // Handle other errors, such as "An error occurred while creating the tournament"
+                    // Display a generic error message to the user
+                }
+            } else {
+                // Handle unexpected errors here
+                // Display a generic error message to the user
+            }
+        }
     };
 
     return (
@@ -26,7 +46,7 @@ const NuevoTorneo: React.FC = () => {
                 <div className="flex">
                     <input
                         type="text"
-                        className="p-2 border rounded w-full"
+                        className="p-2 border rounded w-full text-black"
                         placeholder="Nombre del torneo"
                         value={nombreTorneo}
                         onChange={handleInputChange}
@@ -37,6 +57,14 @@ const NuevoTorneo: React.FC = () => {
                     >
                         Crear
                     </button>
+                </div>
+                <div >
+                    {
+                        idNuevoTorneo &&
+                        <div className="pt-5">
+                            Código: {idNuevoTorneo}
+                        </div>
+                    }
                 </div>
             </div>
         </div>

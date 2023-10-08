@@ -1,40 +1,5 @@
-// import { db } from "@/firebaseConfig";
-// import { query, collection, where, getDocs } from "firebase/firestore";
-
-// type Torneo = {
-//     id: string;
-//     // Define other properties here as needed
-//     nombre: string;
-//     pronostico: []
-//     // Add other properties
-// };
-
-// export const getTorneosByUsuario = async (userId: string) => {
-//     try {
-//         const userTorneos: Torneo[] = []
-
-//         const querySnapshot = await getDocs(collection(db, "torneos"))
-//         querySnapshot.forEach(async (doc) => {
-//             const docData = doc.data()
-//             const querySnapshot1 = await getDocs(collection(db, "torneos", doc.id, "pronosticos"))
-//             querySnapshot1.forEach(async (doc1) => {
-//                 const doc1Data = doc1.data()
-//                 if (doc1Data.userId === userId && !doc1Data.deleted) {
-//                     userTorneos.push({ id: doc.id, nombre: docData.name, pronostico: doc1Data.pronostico })
-//                 }
-//             })
-//         })
-
-//         return userTorneos;
-//     } catch (error) {
-//         console.error("Error al obtener los torneos del usuario:", error);
-//         throw error;
-//     }
-// };
-
-
 import { db } from "@/firebaseConfig";
-import { query, collection, where, getDocs } from "firebase/firestore";
+import { doc, getDoc, where, getDocs } from "firebase/firestore";
 
 type Torneo = {
     id: string;
@@ -43,31 +8,34 @@ type Torneo = {
     pronostico: []
     // Add other properties
 };
-
 export const getTorneosByUsuario = async (userId: string) => {
     try {
-        const userTorneos: Torneo[] = [];
-        const torneosQuery = query(collection(db, "torneos"));
+        const docRef = doc(db, "users", userId);
+        const docSnap = await getDoc(docRef);
+        const userData = docSnap.data();
+        let torneosId = []
+        let torneosPromises = [];
 
-        const querySnapshot = await getDocs(torneosQuery);
+        if (userData && userData.torneos) {
+            torneosId = userData.torneos
+            torneosPromises = torneosId.map(async (torneoId: string) => {
+                const nameRef = doc(db, "torneos", torneoId);
+                const nameSnap = await getDoc(nameRef);
+                const nameData = nameSnap.data();
 
-        const promises = querySnapshot.docs.map(async (doc) => {
-            const docData = doc.data();
-            const pronosticosQuery = query(collection(db, "torneos", doc.id, "pronosticos"), where("userId", "==", userId));
+                const docRef = doc(db, "torneos", torneoId, "pronosticos", userId);
+                const docSnap = await getDoc(docRef);
+                const pronosticoData = docSnap.data()
 
-            const pronosticosSnapshot = await getDocs(pronosticosQuery);
+                return { id: torneoId, nombre: nameData?.nombre, pronostico: pronosticoData?.pronostico }
+            }
+            )
+        }
 
-            pronosticosSnapshot.forEach((doc1) => {
-                const doc1Data = doc1.data();
-                if (!doc1Data.deleted) {
-                    userTorneos.push({ id: doc.id, nombre: docData.nombre, pronostico: doc1Data.pronostico });
-                }
-            });
-        });
+        const torneos: Torneo[] = await Promise.all(torneosPromises)
+        return torneos;
 
-        await Promise.all(promises);
 
-        return userTorneos;
     } catch (error) {
         console.error("Error al obtener los torneos del usuario:", error);
         throw error;
