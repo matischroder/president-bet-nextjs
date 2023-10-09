@@ -2,7 +2,7 @@ import { db } from "@/firebaseConfig";
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc } from "firebase/firestore";
 
 // Delete a user from a tournament with logical deletion
-export const deleteTorneoUsuario = async (torneoId, userId) => {
+export const deleteTorneoUsuario = async (torneoId: string, userId: string) => {
     try {
         const torneoRef = doc(db, "torneos", torneoId);
 

@@ -1,7 +1,6 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { AuthProvider } from "@/hook/auth";
-import AuthStateChanged from "@/layout/AuthStateChange";
 import { useState } from "react";
 import Navbar from "@/components/global/Navbar";
 import { Toaster } from "sonner";
@@ -40,23 +39,21 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <AuthProvider>
-      <AuthStateChanged>
-        <div className="bg-[#0f0e0e] text-white absolute inset-0  max-w-md m-auto">
-          <div
-            className={`w-full h-full`}
-            onTouchMove={handleTouchMove}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-          >
-            <Navbar
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
-            />
-            <Component  {...pageProps} />
-            <Toaster />
-          </div>
+      <div className="bg-[#0f0e0e] text-white absolute inset-0  max-w-md m-auto">
+        <div
+          className={`w-full h-full`}
+          onTouchMove={handleTouchMove}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <Navbar
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+          />
+          <Component  {...pageProps} />
+          <Toaster />
         </div>
-      </AuthStateChanged>
+      </div>
     </AuthProvider>
   );
 }

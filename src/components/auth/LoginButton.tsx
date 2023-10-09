@@ -6,21 +6,12 @@ type LoginButtonProps = {
   handleSignIn: () => void;
   background: string;
   color: string;
-  widestButtonWidth: number;
-  setWidestButtonWidth: Dispatch<SetStateAction<number>>
+  widestButtonWidth: HTMLElement | null;
+  setWidestButtonWidth: Dispatch<SetStateAction<HTMLElement | null>>
 };
 
 const LoginButton: FC<LoginButtonProps> = ({ providerName, handleSignIn, background, color, widestButtonWidth, setWidestButtonWidth }) => {
-  const buttonRef = useRef(null);
-
-  useEffect(() => {
-    if (buttonRef.current) {
-      const width = buttonRef.current.offsetWidth;
-      if (width > widestButtonWidth) {
-        setWidestButtonWidth(width);
-      }
-    }
-  }, [widestButtonWidth, setWidestButtonWidth]);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   return (
     <div className='py-1.5'>

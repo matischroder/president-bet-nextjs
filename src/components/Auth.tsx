@@ -6,7 +6,7 @@ import LoginButton from "@/components/auth/LoginButton";
 
 
 const Login = ({ auth }: { auth: any }) => {
-    const [widestButtonWidth, setWidestButtonWidth] = useState(0)
+    const [widestButtonWidth, setWidestButtonWidth] = useState<HTMLElement | null>(null)
 
     const { user, error, handleGoogleSignIn, handleAppleSignIn, handleMicrosoftSignIn, handleFacebookSignIn, handleEmailPassRegister, handleEmailPassSignIn, handleResetPassword } = auth
 

@@ -8,7 +8,7 @@ import LoginButton from "@/components/auth/LoginButton";
 
 
 function Login({ auth }: { auth: any }) {
-    const [widestButtonWidth, setWidestButtonWidth] = useState(0)
+    const [widestButtonWidth, setWidestButtonWidth] = useState<HTMLElement | null>(null);
 
     const { user, error, handleGoogleSignIn, handleAppleSignIn, handleMicrosoftSignIn, handleFacebookSignIn } = auth
 
