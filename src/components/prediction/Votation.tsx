@@ -59,9 +59,6 @@ export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
                 <h2 className="text-xl font-bold text-center w-full">{torneo.nombre}</h2>
             </div>
             <div className='w-full h-full flex flex-col justify-around px-5 py-20' >
-                {/* <View style={styles.donut}>
-                // <Donut candidates={candidateStates} />
-            </View> */}
                 {
                     candidateStates.map((candidate, index) => (
                         <Candidate
