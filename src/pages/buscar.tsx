@@ -17,7 +17,6 @@ const BuscarTorneos: React.FC = () => {
     const handleSearchClick = async () => {
         try {
             const torneo = await getTorneoById(torneoId)
-            console.log(torneo)
             setTorneo(torneo);
         } catch (error) { }
     };

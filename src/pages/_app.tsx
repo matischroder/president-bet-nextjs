@@ -4,6 +4,7 @@ import { AuthProvider } from "@/hook/auth";
 import { useState } from "react";
 import Navbar from "@/components/global/Navbar";
 import { Toaster } from "sonner";
+import AuthStateChanged from "@/layout/AuthStateChange";
 
 export default function App({ Component, pageProps }: AppProps) {
   // logic to open navbar
@@ -39,21 +40,23 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <AuthProvider>
-      <div className="bg-[#0f0e0e] text-white absolute inset-0  max-w-md m-auto">
-        <div
-          className={`w-full h-full`}
-          onTouchMove={handleTouchMove}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          <Navbar
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-          />
-          <Component  {...pageProps} />
-          <Toaster />
+      <AuthStateChanged>
+        <div className="bg-[#0f0e0e] text-white absolute inset-0  max-w-md m-auto">
+          <div
+            className={`w-full h-full`}
+            onTouchMove={handleTouchMove}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            <Navbar
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+            />
+            <Component  {...pageProps} />
+            <Toaster />
+          </div>
         </div>
-      </div>
+      </AuthStateChanged>
     </AuthProvider>
   );
 }

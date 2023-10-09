@@ -15,7 +15,6 @@ async function handleSignInWithProvider(
     } catch (error: any) {
         if (error.code === "auth/cancelled-popup-request") {
             // Handle the cancelled popup request error
-            console.log("User cancelled the sign-in popup.");
             return { user: null };
         } else {
             return { error };

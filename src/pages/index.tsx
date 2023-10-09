@@ -17,7 +17,6 @@ const Root = () => {
     const fetchTorneos = async () => {
       try {
         const torneosData = await getTorneosByUsuario(auth.user.uid);
-        console.log(torneosData)
         setTorneos(torneosData); // Store torneos in state
         setIsLoading(false);
       } catch (error) {
