@@ -6,39 +6,34 @@ import massaImage from "@/images/massa.png"
 import schiarettiImage from "@/images/schiaretti.png"
 import bregmanImage from "@/images/bregman.png"
 import blancoImage from "@/images/blanco.png"
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { putPronostico } from '@/functions/firebase/tournaments/putPronostico';
 import useAuth from '@/hook/auth';
-
-type Torneo = {
-    id: string;
-    nombre: string;
-    pronostico: [];
-    // Add other properties
-};
+import Torneo from "@/types/torneo";
 
 interface VotationProps {
     torneo: Torneo;
-    setSelectedTorneo: (torneo: Torneo | null) => void; // Define the prop for setSelectedTorneo
+    setSelectedTorneo: React.Dispatch<React.SetStateAction<Torneo | null>>;
 }
 
 interface Candidate {
     name: string;
     percentage: number | string;
-    image: string;
+    image: StaticImageData;
     backgroundColor: string[]
 }
 
 export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
     const auth = useAuth()
     const candidates = [
-        { name: "Javier Milei", percentage: torneo.pronostico && torneo.pronostico.length > 0 ? torneo.pronostico[0] : 0, image: mileiImage, backgroundColor: ["#b53193", "#a81d3f", "#d56328"] },
-        { name: "Patricia Bullrich", percentage: torneo.pronostico && torneo.pronostico.length > 1 ? torneo.pronostico[1] : 0, image: bullrichImage, backgroundColor: ["#f1f0a3", "#fcd009", "#feb808", "#ed5e53", "#f364a9", "#1d128f", "#8cd9ee"] },
-        { name: "Sergio Massa", percentage: torneo.pronostico && torneo.pronostico.length > 2 ? torneo.pronostico[2] : 0, image: massaImage, backgroundColor: ["#01b7ff", "#ffffff", "#ffc700", "#ffffff", "#01b7ff"] },
-        { name: "Juan Schiaretti", percentage: torneo.pronostico && torneo.pronostico.length > 3 ? torneo.pronostico[3] : 0, image: schiarettiImage, backgroundColor: ["#089fdf", "#0856a3", "#e00b13"] },
-        { name: "Myriam Bregman", percentage: torneo.pronostico && torneo.pronostico.length > 4 ? torneo.pronostico[4] : 0, image: bregmanImage, backgroundColor: ["#ee454c", "#ee454c", "#ee454c", "black", "black", "white", "black", "black", "#ee454c", "#ee454c", "#ee454c"] },
-        { name: "Voto en Blanco", percentage: torneo.pronostico && torneo.pronostico.length > 5 ? torneo.pronostico[5] : 0, image: blancoImage, backgroundColor: ["white", "white"] }
+        { name: "Javier Milei", percentage: torneo.pronostico && torneo.pronostico.length > 0 ? torneo.pronostico[0] : "0", image: mileiImage, backgroundColor: ["#b53193", "#a81d3f", "#d56328"] },
+        { name: "Patricia Bullrich", percentage: torneo.pronostico && torneo.pronostico.length > 1 ? torneo.pronostico[1] : "0", image: bullrichImage, backgroundColor: ["#f1f0a3", "#fcd009", "#feb808", "#ed5e53", "#f364a9", "#1d128f", "#8cd9ee"] },
+        { name: "Sergio Massa", percentage: torneo.pronostico && torneo.pronostico.length > 2 ? torneo.pronostico[2] : "0", image: massaImage, backgroundColor: ["#01b7ff", "#ffffff", "#ffc700", "#ffffff", "#01b7ff"] },
+        { name: "Juan Schiaretti", percentage: torneo.pronostico && torneo.pronostico.length > 3 ? torneo.pronostico[3] : "0", image: schiarettiImage, backgroundColor: ["#089fdf", "#0856a3", "#e00b13"] },
+        { name: "Myriam Bregman", percentage: torneo.pronostico && torneo.pronostico.length > 4 ? torneo.pronostico[4] : "0", image: bregmanImage, backgroundColor: ["#ee454c", "#ee454c", "#ee454c", "black", "black", "white", "black", "black", "#ee454c", "#ee454c", "#ee454c"] },
+        { name: "Voto en Blanco", percentage: torneo.pronostico && torneo.pronostico.length > 5 ? torneo.pronostico[5] : "0", image: blancoImage, backgroundColor: ["white", "white"] }
     ];
+
     const [candidateStates, setCandidateStates] = useState<Candidate[]>(candidates);
 
     const handleCandidateState = (index: number, value: number | string) => {

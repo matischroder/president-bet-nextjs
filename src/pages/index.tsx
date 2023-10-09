@@ -4,13 +4,7 @@ import { getTorneosByUsuario } from "@/functions/firebase/tournaments/getTorneoB
 import useAuth from "@/hook/auth";
 import { withProtected } from "@/hook/route";
 import { useEffect, useState } from "react";
-
-type Torneo = {
-  id: string;
-  nombre: string;
-  pronostico: [];
-  // Add other properties
-};
+import Torneo from "@/types/torneo";
 
 const Root = () => {
   const auth = useAuth();

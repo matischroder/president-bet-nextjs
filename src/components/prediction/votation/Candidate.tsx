@@ -1,12 +1,12 @@
 import React from 'react';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import Slider from 'rc-slider'; // Replace with a suitable slider component (e.g., rc-slider)
 import 'rc-slider/assets/index.css'; // Import the CSS for the slider component
 
 interface Props {
     candidateName: string;
     percentage: number | string;
-    image: string;
+    image: StaticImageData;
     backgroundColor: string[];
     setPercentage: (value: number | string) => void;
 }
@@ -61,7 +61,7 @@ const Candidate: React.FC<Props> = ({
                     <Slider
                         className=""
                         value={Number(percentage)}
-                        onChange={(value) => setPercentage(value.toFixed(1))}
+                        onChange={(value) => typeof value === "number" && setPercentage(value.toFixed(1))}
                         min={0}
                         max={100}
                         step={0.1}
