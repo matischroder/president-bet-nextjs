@@ -6,7 +6,6 @@ import massaImage from "@/images/massa.png"
 import schiarettiImage from "@/images/schiaretti.png"
 import bregmanImage from "@/images/bregman.png"
 import blancoImage from "@/images/blanco.png"
-import Donut from './Donut';
 import Image from 'next/image';
 import { putPronostico } from '@/functions/firebase/tournaments/putPronostico';
 import useAuth from '@/hook/auth';
@@ -61,7 +60,7 @@ export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
             </div>
             <div className='w-full h-full flex flex-col justify-around px-5 py-20' >
                 {/* <View style={styles.donut}>
-                <Donut candidates={candidateStates} />
+                // <Donut candidates={candidateStates} />
             </View> */}
                 {
                     candidateStates.map((candidate, index) => (
