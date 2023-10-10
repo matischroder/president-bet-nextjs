@@ -10,6 +10,7 @@ import Image, { StaticImageData } from 'next/image';
 import { putPronostico } from '@/functions/firebase/tournaments/putPronostico';
 import useAuth from '@/hook/auth';
 import Torneo from "@/types/torneo";
+import DetailsModal from './votation/DetailsModal';
 
 interface VotationProps {
     torneo: Torneo;
@@ -35,6 +36,7 @@ export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
     ];
 
     const [candidateStates, setCandidateStates] = useState<Candidate[]>(candidates);
+    const [details, setDetails] = useState<boolean>(false);
 
     const handleCandidateState = (index: number, value: number | string) => {
         setCandidateStates(prevCandidates => {
@@ -49,11 +51,20 @@ export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
 
     return (
         <div>
-            <div className="flex items-center">
-                <Image alt='back' src={"/back.png"} width={30} height={30} className="absolute text-blue-500 hover:underline cursor-pointer" onClick={() => setSelectedTorneo(null)} />
+            <div className="flex items-center relative">
+                <Image alt='back' src={"/back.png"} width={30} height={30} className="absolute hover:underline cursor-pointer"
+                    onClick={() => setSelectedTorneo(null)}
+                />
                 <h2 className="text-xl font-bold text-center w-full">{torneo.nombre}</h2>
+                <Image alt='back' src={"/details.png"} width={30} height={30} className="absolute right-0 hover:underline cursor-pointer"
+                    data-modal-target="defaultModal"
+                    data-modal-toggle="defaultModal"
+                    onClick={() => setDetails(true)}
+                />
+
             </div>
-            <div className='w-full h-full flex flex-col justify-around px-5 py-20' >
+            <DetailsModal isOpen={details} onClose={() => setDetails(false)} torneo={torneo} />
+            <div className='w-full h-full flex flex-col justify-around px-5 py-10' >
                 {
                     candidateStates.map((candidate, index) => (
                         <Candidate
