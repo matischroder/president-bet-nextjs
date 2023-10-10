@@ -13,7 +13,8 @@ const Root = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsLoading(true);
+    if (torneos.length === 0)
+      setIsLoading(true);
     const fetchTorneos = async () => {
       try {
         const torneosData = await getTorneosByUsuario(auth.user.uid);
@@ -25,14 +26,14 @@ const Root = () => {
       }
     };
     fetchTorneos();
-  }, [auth]);
+  }, [auth, torneos]);
 
   const handleEditClick = (torneo: Torneo) => {
     setSelectedTorneo(torneo); // Set the selected torneo for editing
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 h-full">
       <h1 className="text-2xl font-bold text-center mb-4">Mis Torneos</h1>
       {isLoading && <CircleSpinner />}
       {selectedTorneo ?
