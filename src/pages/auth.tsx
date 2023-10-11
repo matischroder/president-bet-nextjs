@@ -8,11 +8,29 @@ import LoginButton from "@/components/auth/LoginButton";
 
 
 function Login({ auth }: { auth: any }) {
-    const [widestButtonWidth, setWidestButtonWidth] = useState<HTMLElement | null>(null);
 
     const { user, error, handleGoogleSignIn, handleAppleSignIn, handleMicrosoftSignIn, handleFacebookSignIn } = auth
 
-    const providers = [{ name: 'google', onClickFunction: () => handleGoogleSignIn(), background: "bg-white", color: 'text-[#757575]' }, { name: 'apple', onClickFunction: () => handleAppleSignIn(), background: "bg-black", color: 'text-white' }, { name: 'microsoft', onClickFunction: () => handleMicrosoftSignIn(), background: "bg-[#2F2F2F]", color: 'text-white' }, /*{ name: 'facebook', onClickFunction: () => handleFacebookSignIn(), background: "bg-[#3b5998]", color: 'text-white' }, */]
+    const providers = [
+        {
+            name: 'google',
+            onClickFunction: () => handleGoogleSignIn(),
+            background: "bg-white",
+            color: 'text-[#757575]'
+        },
+        // {
+        //     name: 'apple',
+        //     onClickFunction: () => handleAppleSignIn(),
+        //     background: "bg-black",
+        //     color: 'text-white'
+        // },
+        // {
+        //     name: 'microsoft',
+        //     onClickFunction: () => handleMicrosoftSignIn(),
+        //     background: "bg-[#2F2F2F]",
+        //     color: 'text-white'
+        // },
+        /*{ name: 'facebook', onClickFunction: () => handleFacebookSignIn(), background: "bg-[#3b5998]", color: 'text-white' }, */]
 
     return (
         <main className="flex h-screen">
@@ -26,7 +44,7 @@ function Login({ auth }: { auth: any }) {
                         alt="Pluma Icon"
                     />
                     <h2 className="text-center mt-2 text-2xl tracking-wide">
-                        Bienvenidos al Prode de Presidentes
+                        Prode de las Elecciones Argentinas
                     </h2>
                     <p className="text-center my-5">
                         Inicie sesión con su cuenta para continuar
@@ -40,8 +58,6 @@ function Login({ auth }: { auth: any }) {
                                     handleSignIn={provider.onClickFunction}
                                     background={provider.background}
                                     color={provider.color}
-                                    widestButtonWidth={widestButtonWidth}
-                                    setWidestButtonWidth={setWidestButtonWidth}
                                 />
                             ))
                         }

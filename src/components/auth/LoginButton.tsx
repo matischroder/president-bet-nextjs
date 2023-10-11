@@ -6,19 +6,16 @@ type LoginButtonProps = {
   handleSignIn: () => void;
   background: string;
   color: string;
-  widestButtonWidth: HTMLElement | null;
-  setWidestButtonWidth: Dispatch<SetStateAction<HTMLElement | null>>
 };
 
-const LoginButton: FC<LoginButtonProps> = ({ providerName, handleSignIn, background, color, widestButtonWidth, setWidestButtonWidth }) => {
+const LoginButton: FC<LoginButtonProps> = ({ providerName, handleSignIn, background, color }) => {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   return (
     <div className='py-1.5'>
       <button
         ref={buttonRef}
-        className={`${background} ${color} text-black font-semibold py-2 px-4 rounded flex items-center border border-gray-900`}
-        style={{ minWidth: `${widestButtonWidth}px` }}
+        className={`${background} ${color} text-black w-full font-semibold py-2 px-4 rounded flex items-center border border-gray-900`}
         onClick={() => handleSignIn()}
       >
         <Image
