@@ -35,8 +35,6 @@ const Login = ({ auth }: { auth: any }) => {
                                 handleSignIn={provider.onClickFunction}
                                 background={provider.background}
                                 color={provider.color}
-                                widestButtonWidth={widestButtonWidth}
-                                setWidestButtonWidth={setWidestButtonWidth}
                             />
                         ))
                     }
