@@ -81,7 +81,7 @@ export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
                     Total: {candidateStates.reduce((acc, candidate) => acc + Number(candidate.percentage), 0)}
                 </div>
                 <button
-                    className="bg-gray-800 font-bold py-2 px-4 rounded-lg"
+                    className="bg-[#4368b8] font-bold py-2 px-4 rounded-lg"
                     onClick={() => {
                         putPronostico(torneo.id, auth.user.uid, candidateStates.map(candidate => Number(candidate.percentage)))
                     }} >

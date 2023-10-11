@@ -52,7 +52,7 @@ export default function App({ Component, pageProps }: AppProps) {
               isOpen={isOpen}
               setIsOpen={setIsOpen}
             />
-            <Component  {...pageProps} />
+            <Component className="blur-lg" {...pageProps} />
             <Toaster />
           </div>
         </div>

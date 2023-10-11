@@ -6,12 +6,15 @@ import { withProtected } from '@/hook/route';
 import React, { useState } from 'react';
 
 import { AiOutlineCopy } from 'react-icons/ai'
+import { IoShareOutline } from 'react-icons/io5'
 import { toast } from 'sonner';
 
 const NuevoTorneo: React.FC = () => {
     const [nombreTorneo, setNombreTorneo] = useState('');
     const [idNuevoTorneo, setIdNuevoTorneo] = useState('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const url = "http://localhost:3000/"
+
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNombreTorneo(e.target.value);
@@ -49,9 +52,26 @@ const NuevoTorneo: React.FC = () => {
         }
     };
 
+    const shareTorneo = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'Detalles del Torneo',
+                    text: `Te invito a mi torneo!! Nombre del Torneo: ${idNuevoTorneo}, Hacé click en el siguiente enlace para unirte: ${url}/buscar/${idNuevoTorneo}`,
+                });
+            } catch (error) {
+                toast.error('Error al compartir')
+                console.error('Error sharing:', error);
+            }
+        } else {
+            toast.error('No se puede compartir desde este dispositivo')
+            console.log('Web Share API is not supported in this browser.');
+        }
+    };
+
     const copyToClipboard = async () => {
         try {
-            const textToCopy = 'Text you want to copy to clipboard';
+            const textToCopy = idNuevoTorneo;
             await navigator.clipboard.writeText(textToCopy);
             toast.success('Identificador copiado');
         } catch (error) {
@@ -88,17 +108,30 @@ const NuevoTorneo: React.FC = () => {
                     {
                         idNuevoTorneo &&
                         <div className="pt-5 block">
-                            <h2 className='text-xl'>Información del torneo</h2>
+                            <h2 className='text-xl font-semibold'>Información del torneo</h2>
                             <div>
-                                <strong>Nombre: </strong>{nombreTorneo}
+                                Nombre:
+                                &nbsp;
+                                <strong>{nombreTorneo} </strong>
                             </div>
                             <div>
                                 <div className='inline-flex'>
-                                    <strong>Código: </strong>{idNuevoTorneo}
+                                    Código:
+                                    &nbsp;
+                                    <strong> {idNuevoTorneo} </strong>
                                 </div>
-                                <div onClick={() => copyToClipboard()} className='cursor-pointer inline-flex'>
-                                    <AiOutlineCopy className='w-5 h-full ml-5' />
-                                </div>
+                                &nbsp;
+                                <AiOutlineCopy
+                                    className='cursor-pointer inline-flex'
+                                    color='white'
+                                    size={21}
+                                    onClick={() => copyToClipboard()}
+                                />
+                                &nbsp;
+                                <IoShareOutline className='inline-flex cursor-pointer'
+                                    color='white'
+                                    size={21}
+                                    onClick={shareTorneo} />
                             </div>
                         </div>
                     }

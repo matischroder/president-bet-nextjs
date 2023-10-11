@@ -8,24 +8,25 @@ import Torneo from "@/types/torneo";
 
 const Root = () => {
   const auth = useAuth();
-  const [torneos, setTorneos] = useState<Torneo[]>([]);
+  const [torneos, setTorneos] = useState<Torneo[] | null>(null);
   const [selectedTorneo, setSelectedTorneo] = useState<Torneo | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (torneos.length === 0)
-      setIsLoading(true);
-    const fetchTorneos = async () => {
-      try {
-        const torneosData = await getTorneosByUsuario(auth.user.uid);
-        setTorneos(torneosData); // Store torneos in state
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching torneos:", error);
-        setIsLoading(false);
-      }
-    };
-    fetchTorneos();
+    if (!torneos) {
+      setIsLoading(true)
+      const fetchTorneos = async () => {
+        try {
+          const torneosData = await getTorneosByUsuario(auth.user.uid);
+          setTorneos(torneosData); // Store torneos in state
+          setIsLoading(false);
+        } catch (error) {
+          console.error("Error fetching torneos:", error);
+          setIsLoading(false);
+        }
+      };
+      fetchTorneos();
+    }
   }, [auth, torneos]);
 
   const handleEditClick = (torneo: Torneo) => {
@@ -44,8 +45,8 @@ const Root = () => {
         :
         <>
 
-          <ul className="space-y-2">
-            {torneos.map((torneo) => (
+          <ul className="space-y-2 py-2">
+            {torneos && torneos.map((torneo) => (
               <li
                 key={torneo.id}
                 className="bg-gray-800 shadow-md p-4 rounded-lg flex justify-between items-center"
@@ -53,7 +54,7 @@ const Root = () => {
                 <div>
                   <h2 className="text-lg font-semibold">{torneo.nombre}</h2>
                 </div>
-                <button className="px-3 py-1 bg-blue-500 text-white rounded-lg"
+                <button className="px-3 py-1 bg-[#5a7ed1] text-white font-bold rounded-lg"
                   onClick={() => handleEditClick(torneo)} // Pass the selected torneo
                 >
                   Editar

@@ -1,58 +1,101 @@
+import CircleSpinner from '@/components/global/Spinner';
 import { getTorneoById } from '@/functions/firebase/tournaments/getTorneoById';
+import { postTorneoUsuario } from '@/functions/firebase/tournaments/postTorneoUsuario';
+import useAuth from '@/hook/auth';
 import { withProtected } from '@/hook/route';
-import React, { use, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { use, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 type Torneo = {
     nombre: string;
 };
 
 const BuscarTorneos: React.FC = () => {
-    const [torneoId, setTorneoId] = useState('');
+    const auth = useAuth()
+    const [torneoId, setTorneoId] = useState<string>("");
     const [torneo, setTorneo] = useState<Torneo | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const router = useRouter()
+    const { slug: id } = router.query; // Retrieve the slug from router query
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTorneoId(e.target.value);
     };
 
-    const handleSearchClick = async () => {
+    const searchTorneo = async () => {
+        setIsLoading(true);
         try {
-            const torneo = await getTorneoById(torneoId)
+            const torneo = await getTorneoById(torneoId);
+            if (!torneo)
+                toast.error('Torneo no encontrado');
             setTorneo(torneo);
-        } catch (error) { }
+            setIsLoading(false);
+        } catch (error) {
+            toast.error('Error al buscar el torneo, intenta más tarde')
+            setIsLoading(false);
+            console.error('Error searching for torneo:', error);
+        }
     };
 
+    useEffect(() => {
+        if (id) {
+            setTorneoId(id as string)
+            searchTorneo();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
+
+    const handlePutUser = async () => {
+        try {
+            await postTorneoUsuario(torneoId, auth.user.uid);
+
+        } catch (error) {
+            toast.error('Error al unirse al torneo, intenta más tarde')
+            console.error('Error uniendose al torneo');
+        }
+    }
+
     return (
-        <div className="p-4">
+        <div className="p-4 h-[87%]">
             <h1 className="text-2xl font-bold text-center mb-4">Buscar Torneo</h1>
-            <div className="mb-4">
+            <div className="mb-4 h-full">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                     Buscar Torneo por identificador:
                 </label>
                 <div className="flex">
                     <input
                         type="text"
-                        className="p-2 border rounded w-full text-black"
+                        className="p-2 border rounded w-full text-black selection:text-black"
                         placeholder="ID del torneo"
                         value={torneoId}
                         onChange={handleInputChange}
                     />
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded"
-                        onClick={handleSearchClick}
+                        onClick={() => searchTorneo()}
                     >
                         Buscar
                     </button>
                 </div>
-                <div >
+                <div className='h-full'>
+                    {isLoading && <CircleSpinner />}
                     {
                         torneo &&
-                        <div className="pt-5">
-                            Torneo: {torneo.nombre}
+                        <div className='w-full h-full flex flex-col px-2'>
+                            <div className="py-5 ">
+                                Nombre del Torneo:&nbsp;<strong>{torneo.nombre}</strong>
+                            </div>
+                            <button
+                                className="bg-[#4368b8] font-bold py-2 px-4 rounded-lg"
+                                onClick={() => handlePutUser()} >
+                                Unirme al torneo
+                            </button>
                         </div>
                     }
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

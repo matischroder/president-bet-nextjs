@@ -35,8 +35,8 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
 
     return (
         <nav
-            className={`${isOpen ? 'bg-gray-900 w-64 z-50' : `bg-transparent w-20`
-                } p-4 transition-all duration-300 absolute top-0 left-0 inset-0 overflow-x-hidden`}
+            className={`${isOpen ? 'bg-black/95 w-64 z-50 fixed h-full' : `bg-transparent w-20 absolute top-0 left-0`
+                } p-4 transition-all duration-300 overflow-x-hidden`}
             ref={navRef}
 
         >
