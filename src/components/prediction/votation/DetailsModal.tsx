@@ -34,7 +34,7 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ isOpen, onClose, torneo }) 
             try {
                 await navigator.share({
                     title: 'Detalles del Torneo',
-                    text: `Te invito a mi torneo!! Nombre del Torneo: ${torneo?.nombre}, Hacé click en el siguiente enlace para unirte: ${url}/buscar/${torneo?.id}`,
+                    text: `Te invito a mi torneo!! Nombre del Torneo: ${torneo?.nombre}, Hacé click en el siguiente enlace para unirte: ${process.env.NEXT_PUBLIC_URL}/buscar/${torneo?.id}`,
                 });
             } catch (error) {
                 toast.error('Error al compartir')
