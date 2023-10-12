@@ -25,17 +25,56 @@ const NuevoTorneo: React.FC = () => {
             toast.success('Torneo creado con éxito');
             setIsLoading(false);
         } catch (error) {
-            // Handle errors as needed
+            if (error instanceof Error) {
+                // Handle the specific error types here
+                if (error.message === "User not found") {
+                    toast.error('Usuario no encontrado');
+                    // Handle the "User not found" error
+                    // Display an appropriate error message to the user
+                } else if (error.message === "You have reached the limit of 25 tournaments") {
+                    toast.error('Has alcanzado el límite de 25 torneos');
+                    // Handle the "Tournament limit reached" error
+                    // Display an appropriate error message to the user
+                } else {
+                    toast.error('Error al crear el torneo');
+                    // Handle other errors, such as "An error occurred while creating the tournament"
+                    // Display a generic error message to the user
+                }
+            } else {
+                toast.error('Error al crear el torneo');
+                // Handle unexpected errors here
+                // Display a generic error message to the user
+            }
             setIsLoading(false);
         }
     };
 
     const shareTorneo = async () => {
-        // Share function
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'Detalles del Torneo',
+                    text: `Te invito a mi torneo!! Nombre del Torneo: ${idNuevoTorneo}, Hacé click en el siguiente enlace para unirte: ${process.env.NEXT_PUBLIC_URL}/buscar/${idNuevoTorneo}`,
+                });
+            } catch (error) {
+                toast.error('Error al compartir')
+                console.error('Error sharing:', error);
+            }
+        } else {
+            toast.error('No se puede compartir desde este dispositivo')
+            console.log('Web Share API is not supported in this browser.');
+        }
     };
 
     const copyToClipboard = async () => {
-        // Copy to clipboard function
+        try {
+            const textToCopy = idNuevoTorneo;
+            await navigator.clipboard.writeText(textToCopy);
+            toast.success('Identificador copiado');
+        } catch (error) {
+            console.error('Failed to copy text: ', error);
+            toast.error('Error al copiar');
+        }
     };
 
     const entrarAlTorneoButton = idNuevoTorneo ? (
