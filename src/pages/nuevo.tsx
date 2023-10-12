@@ -54,7 +54,7 @@ const NuevoTorneo: React.FC = () => {
             try {
                 await navigator.share({
                     title: 'Detalles del Torneo',
-                    text: `Te invito a mi torneo!! Nombre del Torneo: ${idNuevoTorneo}, Hacé click en el siguiente enlace para unirte: ${process.env.NEXT_PUBLIC_URL}/buscar/${idNuevoTorneo}`,
+                    text: `Te invito a mi torneo!! Nombre del Torneo: ${nombreTorneo}, Hacé click en el siguiente enlace para unirte: ${process.env.NEXT_PUBLIC_URL}/buscar/${idNuevoTorneo}`,
                 });
             } catch (error) {
                 toast.error('Error al compartir')
