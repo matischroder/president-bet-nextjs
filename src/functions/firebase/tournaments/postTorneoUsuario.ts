@@ -37,7 +37,7 @@ export const postTorneoUsuario = async (torneoId: string, user: User): Promise<v
             });
 
             const usuariosRef = doc(db, "users", user.uid);
-            await setDoc(usuariosRef, {
+            await updateDoc(usuariosRef, {
                 torneos: arrayUnion(torneoId),
             });
             toast.success("Se ha unido exitosamente al torneo")
