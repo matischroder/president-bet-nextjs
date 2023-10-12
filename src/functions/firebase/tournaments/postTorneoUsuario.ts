@@ -6,12 +6,12 @@ import { toast } from "sonner";
 // Check if a user is in a tournament
 export const isUserInTorneo = async (torneoId: string, userId: string): Promise<boolean> => {
     try {
-        const torneoRef = doc(db, "torneos", torneoId);
-        const torneoDoc = await getDoc(torneoRef);
-        const torneoData = torneoDoc.data();
+        const userRef = doc(db, "users", userId);
+        const userDoc = await getDoc(userRef);
+        const userData = userDoc.data();
 
         // Check if the user exists in the tournament
-        return torneoData?.usuarios?.[userId]?.delete === false;
+        return userData?.torneos.includes(torneoId);
     } catch (error) {
         console.error("Error al verificar la presencia del usuario en el torneo:", error);
         throw error;
