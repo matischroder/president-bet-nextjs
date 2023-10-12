@@ -11,7 +11,7 @@ export const putPronostico = async (torneoId: string, userId: string, pronostico
             pronostico: pronostico,
         };
 
-        await setDoc(pronosticoRef, pronosticoData);
+        await updateDoc(pronosticoRef, pronosticoData);
         toast.success("Pronóstico guardado")
 
     } catch (error) {

@@ -4,7 +4,7 @@ import { postTorneoUsuario } from '@/functions/firebase/tournaments/postTorneoUs
 import useAuth from '@/hook/auth';
 import { withProtected } from '@/hook/route';
 import { useRouter } from 'next/router';
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 type Torneo = {
@@ -12,11 +12,11 @@ type Torneo = {
 };
 
 const BuscarTorneos: React.FC = () => {
-    const auth = useAuth()
+    const auth = useAuth();
     const [torneoId, setTorneoId] = useState<string>("");
     const [torneo, setTorneo] = useState<Torneo | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const router = useRouter()
+    const router = useRouter();
     const { slug: id } = router.query; // Retrieve the slug from router query
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ const BuscarTorneos: React.FC = () => {
             setTorneo(torneo);
             setIsLoading(false);
         } catch (error) {
-            toast.error('Error al buscar el torneo, intenta más tarde')
+            toast.error('Error al buscar el torneo, intenta más tarde');
             setIsLoading(false);
             console.error('Error searching for torneo:', error);
         }
@@ -40,7 +40,7 @@ const BuscarTorneos: React.FC = () => {
 
     useEffect(() => {
         if (id) {
-            setTorneoId(id as string)
+            setTorneoId(id as string);
             searchTorneo();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,13 +48,21 @@ const BuscarTorneos: React.FC = () => {
 
     const handlePutUser = async () => {
         try {
-            await postTorneoUsuario(torneoId, auth.user.uid);
-
+            await postTorneoUsuario(torneoId, auth.user);
         } catch (error) {
-            toast.error('Error al unirse al torneo, intenta más tarde')
+            toast.error('Error al unirse al torneo, intenta más tarde');
             console.error('Error uniendose al torneo');
         }
     }
+
+    const irAMisTorneosButton = torneo ? (
+        <button
+            className="bg-[#4368b8] font-bold py-2 px-4 rounded-lg mt-4"
+            onClick={() => router.push('/')} // Navigate to the index page
+        >
+            Ir a mis torneos
+        </button>
+    ) : null;
 
     return (
         <div className="p-4 h-[87%]">
@@ -83,7 +91,7 @@ const BuscarTorneos: React.FC = () => {
                     {
                         torneo &&
                         <div className='w-full h-full flex flex-col px-2'>
-                            <div className="py-5 ">
+                            <div className="py-5">
                                 Nombre del Torneo:&nbsp;<strong>{torneo.nombre}</strong>
                             </div>
                             <button
@@ -91,6 +99,7 @@ const BuscarTorneos: React.FC = () => {
                                 onClick={() => handlePutUser()} >
                                 Unirme al torneo
                             </button>
+                            {irAMisTorneosButton}
                         </div>
                     }
                 </div>

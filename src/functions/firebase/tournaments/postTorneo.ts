@@ -21,7 +21,7 @@ class TournamentCreationError extends Error {
 
 import { db } from "@/firebaseConfig";
 import { collection, doc, setDoc, updateDoc, getDoc, addDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { User, getAuth } from "firebase/auth";
 import { arrayUnion, increment } from "firebase/firestore";
 
 // Function to check if the user can create a new tournament
@@ -40,12 +40,17 @@ async function canCreateTournament(userId: string): Promise<boolean> {
 }
 
 // Function to create the "pronosticos" subcollection
-async function createPronosticosSubcollection(torneoId: string, userId: string) {
+async function createPronosticosSubcollection(torneoId: string, user: User) {
     const pronosticosRef = collection(db, "torneos", torneoId, "pronosticos");
-    const pronosticosDocRef = doc(pronosticosRef, userId);
+    const pronosticosDocRef = doc(pronosticosRef, user.uid);
 
     // Initialize the "pronostico" array with five elements set to zero
-    await setDoc(pronosticosDocRef, { pronostico: [0, 0, 0, 0, 0] });
+    await setDoc(pronosticosDocRef, {
+        pronostico: [0, 0, 0, 0, 0],
+        userId: user.uid,
+        userName: user.displayName,
+        isDeleted: false,
+    });
 }
 
 // Create a new tournament and return a random ID
@@ -73,7 +78,7 @@ export const postTorneo = async (nombre: string) => {
         const newTorneoId = newTorneoRef.id;
 
         // Create the "pronosticos" subcollection inside the new tournament document
-        await createPronosticosSubcollection(newTorneoId, userId);
+        await createPronosticosSubcollection(newTorneoId, user);
 
         // Update the user's 'torneos' array with the new tournament ID
         await updateDoc(doc(usuariosRef, userId), {

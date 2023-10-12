@@ -11,6 +11,9 @@ import { putPronostico } from '@/functions/firebase/tournaments/putPronostico';
 import useAuth from '@/hook/auth';
 import Torneo from "@/types/torneo";
 import DetailsModal from './votation/DetailsModal';
+import { getUsuariosTorneos } from '@/functions/firebase/tournaments/getUsuariosTorneos';
+import { get } from 'http';
+import UsersDetails from './UsersDetails';
 
 interface VotationProps {
     torneo: Torneo;
@@ -22,6 +25,13 @@ interface Candidate {
     percentage: number | string;
     image: StaticImageData;
     backgroundColor: string[]
+}
+
+type usersData = {
+    userName: string,
+    pronostico: number[],
+    isDeleted: boolean,
+    userId: string
 }
 
 export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
@@ -37,6 +47,22 @@ export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
 
     const [candidateStates, setCandidateStates] = useState<Candidate[]>(candidates);
     const [details, setDetails] = useState<boolean>(false);
+    const [showUsersDetails, setShowUsersDetails] = useState<boolean>(false);
+    const [usersDetails, setUsersDetails] = useState<usersData[]>([]);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const usuariosTorneos: usersData[] = await getUsuariosTorneos(auth.user.uid, torneo.id);
+                setUsersDetails(usuariosTorneos);
+            } catch (error) {
+                console.error("Error fetching user details:", error);
+            }
+        };
+
+        fetchData();
+    }, [])
 
     const handleCandidateState = (index: number, value: number | string) => {
         setCandidateStates(prevCandidates => {
@@ -51,43 +77,66 @@ export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
 
     return (
         <div>
-            <div className="flex items-center relative">
-                <Image alt='back' src={"/back.png"} width={30} height={30} className="absolute hover:underline cursor-pointer"
-                    onClick={() => setSelectedTorneo(null)}
-                />
-                <h2 className="text-xl font-bold text-center w-full">{torneo.nombre}</h2>
-                <Image alt='back' src={"/details.png"} width={30} height={30} className="absolute right-0 hover:underline cursor-pointer"
-                    data-modal-target="defaultModal"
-                    data-modal-toggle="defaultModal"
-                    onClick={() => setDetails(true)}
-                />
+            {
+                showUsersDetails ?
+                    <UsersDetails nombre={torneo.nombre} usersData={usersDetails} setShowUsersDetails={setShowUsersDetails} /> :
+                    <>
+                        <div className="flex items-center relative">
+                            <Image alt='back' src={"/back.png"} width={30} height={30} className="absolute hover:underline cursor-pointer"
+                                onClick={() => setSelectedTorneo(null)}
+                            />
+                            <h2 className="text-xl font-bold text-center w-full">{torneo.nombre}</h2>
+                            <Image alt='back' src={"/details.png"} width={30} height={30} className="absolute right-0 hover:underline cursor-pointer"
+                                data-modal-target="defaultModal"
+                                data-modal-toggle="defaultModal"
+                                onClick={() => setDetails(true)}
+                            />
+                        </div>
+                        <DetailsModal isOpen={details} onClose={() => setDetails(false)} torneo={torneo} />
+                        <div className='w-full h-full flex flex-col justify-around px-5 py-10' >
+                            {
+                                candidateStates.map((candidate, index) => (
+                                    <Candidate
+                                        key={index}
+                                        candidateName={candidate.name}
+                                        percentage={candidateStates[index].percentage}
+                                        image={candidate.image}
+                                        backgroundColor={candidate.backgroundColor}
+                                        setPercentage={(value) => handleCandidateState(index, value)}
+                                    />
+                                ))
+                            }
+                            <div className='text-end font-semibold mt-3 mb-2'>
+                                Total: {candidateStates.reduce((acc, candidate) => acc + Number(candidate.percentage), 0).toFixed(2)}
+                            </div>
+                            <div className="flex">
+                                <div className="flex-1 m-1">
+                                    <button
+                                        className="w-full bg-[#4368b8] font-bold py-2 px-2 rounded-lg items-center"
+                                        onClick={() => {
+                                            setShowUsersDetails(true)
+                                        }}
+                                    >
+                                        Ver participantes
+                                    </button>
+                                </div>
 
-            </div>
-            <DetailsModal isOpen={details} onClose={() => setDetails(false)} torneo={torneo} />
-            <div className='w-full h-full flex flex-col justify-around px-5 py-10' >
-                {
-                    candidateStates.map((candidate, index) => (
-                        <Candidate
-                            key={index}
-                            candidateName={candidate.name}
-                            percentage={candidateStates[index].percentage}
-                            image={candidate.image}
-                            backgroundColor={candidate.backgroundColor}
-                            setPercentage={(value) => handleCandidateState(index, value)}
-                        />
-                    ))
-                }
-                <div className='text-end font-semibold mt-3 mb-2'>
-                    Total: {candidateStates.reduce((acc, candidate) => acc + Number(candidate.percentage), 0)}
-                </div>
-                <button
-                    className="bg-[#4368b8] font-bold py-2 px-4 rounded-lg"
-                    onClick={() => {
-                        putPronostico(torneo.id, auth.user.uid, candidateStates.map(candidate => Number(candidate.percentage)))
-                    }} >
-                    Guardar
-                </button>
-            </div>
+                                <div className="flex-1 m-1">
+                                    <button
+                                        className="w-full bg-[#4368b8] font-bold py-2 px-2 rounded-lg items-center"
+                                        onClick={() => {
+                                            // Handle the click for the second button (Guardar)
+                                            putPronostico(torneo.id, auth.user.uid, candidateStates.map(candidate => Number(candidate.percentage)))
+                                        }}
+                                    >
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </>
+            }
         </div>
     );
 }

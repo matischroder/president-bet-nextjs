@@ -1,13 +1,8 @@
 import { db } from "@/firebaseConfig";
 import { doc, getDoc, where, getDocs } from "firebase/firestore";
 
-type Torneo = {
-    id: string;
-    // Define other properties here as needed
-    nombre: string;
-    pronostico: []
-    // Add other properties
-};
+import Torneo from "@/types/torneo";
+
 export const getTorneosByUsuario = async (userId: string) => {
     try {
         const docRef = doc(db, "users", userId);

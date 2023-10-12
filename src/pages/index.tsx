@@ -46,6 +46,9 @@ const Root = () => {
         <>
 
           <ul className="space-y-2 py-2">
+            {torneos && torneos.length === 0 &&
+              <p className="text-center text-slate-600">No estás en ningún torneo.</p>
+            }
             {torneos && torneos.map((torneo) => (
               <li
                 key={torneo.id}
@@ -57,7 +60,7 @@ const Root = () => {
                 <button className="px-3 py-1 bg-[#5a7ed1] text-white font-bold rounded-lg"
                   onClick={() => handleEditClick(torneo)} // Pass the selected torneo
                 >
-                  Editar
+                  Ver
                 </button>
               </li>
             ))}
