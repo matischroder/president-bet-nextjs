@@ -22,12 +22,15 @@ export const AuthProvider = (props) => {
                 saveUser(user)
             const analytics = getAnalytics();
             logEvent(analytics, 'signed-in', { method });
+            return true
         }
+        else
+            return false
 
     };
 
     const handleGoogleSignIn = async () => {
-        await handleSignIn(AuthService.handleGoogleSignIn, "Google");
+        return await handleSignIn(AuthService.handleGoogleSignIn, "Google");
     };
 
     const handleAppleSignIn = async () => {

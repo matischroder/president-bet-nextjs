@@ -41,10 +41,15 @@ const BuscarTorneos: React.FC = () => {
     useEffect(() => {
         if (id) {
             setTorneoId(id as string);
+        }
+    }, [id]);
+
+    useEffect(() => {
+        if (torneoId) {
             searchTorneo();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [torneoId]);
 
     const handlePutUser = async () => {
         try {

@@ -1,20 +1,42 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 
 // import useAuth from "@/hook/auth";
 import { withPublic } from "../hook/route"
 import LoginButton from "@/components/auth/LoginButton";
+import { toast } from "sonner";
 
 
 function Login({ auth }: { auth: any }) {
-
+    const router = useRouter();
+    const { slug: id } = router.query; // Retrieve the slug from router query
     const { user, error, handleGoogleSignIn, handleAppleSignIn, handleMicrosoftSignIn, handleFacebookSignIn } = auth
+    const [torneoId, setTorneoId] = useState<string>("");
+
+    useEffect(() => {
+        if (id)
+            setTorneoId(id as string);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
 
     const providers = [
         {
             name: 'google',
-            onClickFunction: () => handleGoogleSignIn(),
+            onClickFunction: async () => {
+                const loginResponse = await handleGoogleSignIn()
+                console.log(loginResponse)
+                if (loginResponse) {
+                    if (torneoId !== "") {
+                        console.log("passed here")
+                        router.push(`/buscar/${torneoId}`)
+                    }
+                } else {
+                    toast.error("No se pudo conectar, intente nuevamente")
+                }
+
+            },
             background: "bg-white",
             color: 'text-[#757575]'
         },
