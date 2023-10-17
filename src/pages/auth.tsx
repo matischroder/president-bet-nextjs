@@ -32,6 +32,9 @@ function Login({ auth }: { auth: any }) {
                         console.log("passed here")
                         router.push(`/buscar/${torneoId}`)
                     }
+                    else {
+                        router.replace("/");
+                    }
                 } else {
                     toast.error("No se pudo conectar, intente nuevamente")
                 }
