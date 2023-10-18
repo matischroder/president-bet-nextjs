@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { withPublic } from "../hook/route"
 import LoginButton from "@/components/auth/LoginButton";
 import { toast } from "sonner";
+import CircleSpinner from "@/components/global/Spinner";
 
 
 function Login({ auth }: { auth: any }) {
@@ -14,6 +15,7 @@ function Login({ auth }: { auth: any }) {
     const { slug: id } = router.query; // Retrieve the slug from router query
     const { user, error, handleGoogleSignIn, handleAppleSignIn, handleMicrosoftSignIn, handleFacebookSignIn } = auth
     const [torneoId, setTorneoId] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
         if (id)
@@ -25,6 +27,7 @@ function Login({ auth }: { auth: any }) {
         {
             name: 'google',
             onClickFunction: async () => {
+                setIsLoading(true)
                 const loginResponse = await handleGoogleSignIn()
                 if (loginResponse) {
                     if (torneoId !== "") {
@@ -33,8 +36,10 @@ function Login({ auth }: { auth: any }) {
                     else {
                         router.replace("/");
                     }
+                    setIsLoading(false)
                 } else {
                     toast.error("No se pudo conectar, intente nuevamente")
+                    setIsLoading(false)
                 }
 
             },
@@ -57,37 +62,41 @@ function Login({ auth }: { auth: any }) {
 
     return (
         <main className="absolute inset-0 mt-20">
-            <div className="h-[100%] w-[100%] flex self-center justify-center">
-                <div className=" h-full w-[70%] flex flex-col self-center justify-center">
-                    <Image
-                        src="/argentina.png"
-                        width={55}
-                        height={55}
-                        className="self-center "
-                        alt="Argentin Icon"
-                    />
-                    <h2 className="text-center mt-2 text-2xl tracking-wide">
-                        Prode de las Elecciones Argentinas
-                    </h2>
-                    <p className="text-center my-5">
-                        Inicie sesión con su cuenta para continuar
-                    </p>
-                    <div className="h-1/4 self-center">
-                        {
-                            providers.map((provider, index) => (
-                                <LoginButton
-                                    key={index}
-                                    providerName={provider.name}
-                                    handleSignIn={provider.onClickFunction}
-                                    background={provider.background}
-                                    color={provider.color}
-                                />
-                            ))
-                        }
-                    </div>
+            {
+                isLoading ?
+                    <CircleSpinner /> :
+                    <div className="h-[100%] w-[100%] flex self-center justify-center">
+                        <div className=" h-full w-[70%] flex flex-col self-center justify-center">
+                            <Image
+                                src="/argentina.png"
+                                width={55}
+                                height={55}
+                                className="self-center "
+                                alt="Argentin Icon"
+                            />
+                            <h2 className="text-center mt-2 text-2xl tracking-wide">
+                                Prode de las Elecciones Argentinas
+                            </h2>
+                            <p className="text-center my-5">
+                                Inicie sesión con su cuenta para continuar
+                            </p>
+                            <div className="h-1/4 self-center">
+                                {
+                                    providers.map((provider, index) => (
+                                        <LoginButton
+                                            key={index}
+                                            providerName={provider.name}
+                                            handleSignIn={provider.onClickFunction}
+                                            background={provider.background}
+                                            color={provider.color}
+                                        />
+                                    ))
+                                }
+                            </div>
 
-                </div>
-            </div>
+                        </div>
+                    </div>
+            }
         </main>
     );
 }
