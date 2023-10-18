@@ -52,7 +52,7 @@ const Candidate: React.FC<Props> = ({
             </div>
 
             <div className="w-3/5 px-5 select-none">
-                <p className="absolute select-none text-xs font-bold ml-2">{candidateName}</p>
+                <p className="absolute select-none text-sm font-bold ml-2">{candidateName}</p>
                 <div className="relative flex items-center justify-center h-full">
                     <Slider
                         className="w-full"
