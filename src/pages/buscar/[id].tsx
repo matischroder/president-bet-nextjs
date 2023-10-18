@@ -9,10 +9,8 @@ const MyComponent = () => {
     const { id } = router.query;
 
     useEffect(() => {
-        if (!auth.user) {
-            localStorage.setItem('torneoId', id as string);
-            router.push(`/auth}`)
-        }
+        if (!auth.user)
+            router.push(`/auth?slug=${id}`)
         router.push(`/buscar?slug=${id}`);
     }, [router, auth, id]);
 

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 
@@ -10,7 +11,15 @@ import { toast } from "sonner";
 
 function Login({ auth }: { auth: any }) {
     const router = useRouter();
+    const { slug: id } = router.query; // Retrieve the slug from router query
     const { user, error, handleGoogleSignIn, handleAppleSignIn, handleMicrosoftSignIn, handleFacebookSignIn } = auth
+    const [torneoId, setTorneoId] = useState<string>("");
+
+    useEffect(() => {
+        if (id)
+            setTorneoId(id as string);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
 
     const providers = [
         {
@@ -18,10 +27,8 @@ function Login({ auth }: { auth: any }) {
             onClickFunction: async () => {
                 const loginResponse = await handleGoogleSignIn()
                 if (loginResponse) {
-                    if (localStorage.getItem("torneoId") !== "") {
-                        const torenoId = localStorage.getItem("torneoId")
-                        localStorage.removeItem("torneoId")
-                        router.push(`/buscar/${torenoId}`)
+                    if (torneoId !== "") {
+                        router.push(`/buscar/${torneoId}`)
                     }
                     else {
                         router.replace("/");
