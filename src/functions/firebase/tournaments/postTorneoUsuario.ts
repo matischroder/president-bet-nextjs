@@ -10,9 +10,10 @@ export const isUserInTorneo = async (torneoId: string, userId: string): Promise<
         const userDoc = await getDoc(userRef);
         const userData = userDoc.data();
 
-        if (userData && !userData.torneos)
+        if (userData && userData.torneos)
+            return userData.torneos.includes(torneoId);
+        else
             return false
-        return userData?.torneos.includes(torneoId);
     } catch (error) {
         console.error("Error al verificar la presencia del usuario en el torneo:", error);
         throw error;
