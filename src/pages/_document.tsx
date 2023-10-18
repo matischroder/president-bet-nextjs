@@ -13,8 +13,8 @@ export default function Document() {
         <Html lang="es" className="bg-gray-800">
             <Head>
                 <Favicons />
-                <meta name="apple-mobile-web-app-capable" content="yes" />
-                <meta name="mobile-web-app-capable" content="yes" />
+                <meta name="apple-mobile-web-app-capable" content="black" />
+                <meta name="mobile-web-app-capable" content="black" />
                 <meta
                     name="keywords"
                     content="elecciones, argentina, elecciones presidenciales, apuestas, prode"
