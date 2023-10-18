@@ -19,7 +19,18 @@ const Candidate: React.FC<Props> = ({
     setPercentage,
 }) => {
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let newValue = event.target.value;
+        const inputValue = event.target.value
+        let newValue = inputValue.replace(/[^0-9,\.]/g, "");
+
+        // Check for multiple decimal points
+        if (newValue.split('.').length > 2) {
+            return;
+        }
+
+        if (newValue === '.') {
+            newValue = '0.';
+        }
+
         // Comma fixes
         if (newValue.includes(',')) {
             if (newValue.length === 1) return setPercentage('0.');
@@ -71,8 +82,9 @@ const Candidate: React.FC<Props> = ({
                 </div>
             </div>
             <input
-                type="number"
+                type="text"
                 inputMode="decimal"
+                pattern="[0-9,.]*"
                 className="w-16 bg-white text-black text-center text-base my-4 rounded-md"
                 value={percentage.toString()}
                 onChange={handleInput}
