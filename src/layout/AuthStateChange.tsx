@@ -20,7 +20,7 @@ export default function AuthStateChanged({ children }: AuthStateChangedProps) {
     }, [setUser]);
 
     if (isLoading) {
-        return <div className="bg-black h-screen flex self-center justify-center"></div>;
+        return <div className="bg-[#0f0e0e] absolute inset-0 flex self-center justify-center"></div>;
     }
 
     return <>{children}</>;

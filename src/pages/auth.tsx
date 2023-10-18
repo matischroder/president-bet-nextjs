@@ -56,7 +56,7 @@ function Login({ auth }: { auth: any }) {
         /*{ name: 'facebook', onClickFunction: () => handleFacebookSignIn(), background: "bg-[#3b5998]", color: 'text-white' }, */]
 
     return (
-        <main className="flex h-screen">
+        <main className="absolute inset-0 mt-20">
             <div className="h-[100%] w-[100%] flex self-center justify-center">
                 <div className=" h-full w-[70%] flex flex-col self-center justify-center">
                     <Image
@@ -72,7 +72,7 @@ function Login({ auth }: { auth: any }) {
                     <p className="text-center my-5">
                         Inicie sesión con su cuenta para continuar
                     </p>
-                    <div className="h-1/6 self-center">
+                    <div className="h-1/4 self-center">
                         {
                             providers.map((provider, index) => (
                                 <LoginButton

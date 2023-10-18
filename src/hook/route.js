@@ -10,7 +10,7 @@ export function withPublic(Component) {
             // 
             // The following return is so that the screen doesn't show a flick
             return (
-                <div className="bg-black h-screen flex self-center justify-center">
+                <div className="bg-[#0f0e0e] absolute inset-0 self-center justify-center">
                     <CircleSpinner />
                 </div>
             );
@@ -28,7 +28,7 @@ export function withProtected(Component) {
             router.replace("/auth");
             // The following return is so that the screen doesn't show a flick
             return (
-                <div className="bg-black h-screen flex self-center justify-center">
+                <div className="bg-[#0f0e0e] absolute inset-0 self-center justify-center">
                     <CircleSpinner />
                 </div>
             );
