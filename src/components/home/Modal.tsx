@@ -1,6 +1,7 @@
 import React from 'react';
 import { IoShareOutline } from 'react-icons/io5'
 import { SlOptionsVertical } from 'react-icons/sl'
+import { LuPlusSquare } from 'react-icons/lu'
 
 interface ModalProps {
     setModal: (hide: boolean) => void;
@@ -21,7 +22,7 @@ const Modal: React.FC<ModalProps> = ({ setModal }) => {
                 <h2 className="text-lg font-semibold mb-2">En iPhone:</h2>
                 <ol className="list-decimal pl-6 mb-4">
                     <li>Toque el icono <IoShareOutline className='inline-flex' /> en la parte inferior de la pantalla.</li>
-                    <li>Desplácese hacia abajo y seleccione &apos;Agregar a pantalla de inicio&apos;.</li>
+                    <li>Desplácese hacia abajo y seleccione &apos;Añadir a pantalla de inicio <LuPlusSquare className='inline-flex' />&apos;.</li>
                     <li>Toque en &apos;Agregar&apos; en la esquina superior derecha.</li>
                 </ol>
                 <h2 className="text-lg font-semibold mb-2">En Android:</h2>

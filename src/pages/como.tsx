@@ -10,7 +10,7 @@ const ComoJugar: React.FC = () => {
 
             <p>
                 El juego está basado en las próximas <strong>elecciones presidenciales de Argentina 2023</strong>. Para las mismas, cada jugador va a tener que elegir entre los posibles candidatos, Milei, Massa, Bullrich, Bregman, Schiaretti y predecir los porcentajes de votos que obtendrá cada uno de ellos, incluyendo el voto en blanco.
-                El gMaríador será el participante que obtenga la <strong>menor puntuación</strong>. Un puntaje más bajo indica que los pronósticos fueron <strong>más precisos</strong> y se acercaron más a los <strong>resultados reales</strong>.
+                El ganador será el participante que obtenga la <strong>menor puntuación</strong>. Un puntaje más bajo indica que los pronósticos fueron <strong>más precisos</strong> y se acercaron más a los <strong>resultados reales</strong>.
             </p>
 
             <h2 className="text-xl font-semibold mt-3 mb-2">¿Cómo jugar?</h2>
@@ -20,16 +20,13 @@ const ComoJugar: React.FC = () => {
                     <strong>1. Pronóstico de Porcentajes:</strong> Cada jugador indicará un pronóstico estimado, estableciendo el porcentaje de votos que cree que obtendrá cada uno de los candidatos.
                 </li>
                 <li>
-                    <strong>2. Cálculo de Diferencias:</strong> Una vez celebradas las elecciones, y conocidos resultados, se compararán los pronósticos con los resultados reales.
+                    <strong>2. Cálculo de Diferencias:</strong> Una vez celebradas las elecciones y conocidos resultados se compararán los pronósticos con los resultados reales.
                 </li>
                 <li>
                     <strong>3. Puntuación: </strong>para conocer el puntaje se hará una sumatoria entre las diferencias absolutas de los pronósticos y los resultados reales de cada candidato, obteniendo así la puntuación total de cada jugador.
                 </li>
                 <li>
-                    <strong>4. Resta de Puntos por Coincidencia de Posición: </strong>Si un jugador acierta no solo el porcentaje, sino también la posición exacta de un candidato, se le resta un punto a su puntuación total por cada coincidencia.
-                </li>
-                <li>
-                    <strong>5. Determinación del GMaríador: </strong>Habiendo conocido los resultados finales de cada uno, gMaría el jugador que haya obtenido la  menor puntuación posible.
+                    <strong>4. Determinación del Ganador: </strong>Habiendo conocido los resultados finales de cada uno, gana el jugador que haya obtenido la  menor puntuación posible.
                 </li>
             </ol>
 
