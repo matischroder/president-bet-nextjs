@@ -18,7 +18,7 @@ export default function Favicons() {
                 sizes="16x16"
                 href="/argentina.png"
             />
-            <link rel="manifest" href="/favicon/site.webmanifest"></link>
+            <link rel="manifest" href="manifest.json"></link>
         </>
     );
 }
