@@ -20,7 +20,7 @@ const ComoJugar: React.FC = () => {
                     <strong>1. Pronóstico de Porcentajes:</strong> Cada jugador indicará un pronóstico estimado, estableciendo el porcentaje de votos que cree que obtendrá cada uno de los candidatos.
                 </li>
                 <li>
-                    <strong>2. Cálculo de Diferencias:</strong> Una vez celebradas las elecciones y conocidos resultados se compararán los pronósticos con los resultados reales.
+                    <strong>2. Cálculo de Diferencias:</strong> Una vez celebradas las elecciones y conocidos los resultados se compararán los pronósticos con los resultados reales.
                 </li>
                 <li>
                     <strong>3. Puntuación: </strong>para conocer el puntaje se hará una sumatoria entre las diferencias absolutas de los pronósticos y los resultados reales de cada candidato, obteniendo así la puntuación total de cada jugador.
