@@ -11,7 +11,9 @@ const MyComponent = () => {
     useEffect(() => {
         if (!auth.user)
             router.push(`/auth?slug=${id}`)
-        router.push(`/buscar?slug=${id}`);
+        else {
+            router.push(`/buscar?slug=${id}`)
+        }
     }, [router, auth, id]);
 
     return (
