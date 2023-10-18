@@ -10,7 +10,7 @@ export default function Document() {
     const ogImageUrl = `${DOMAINS[0]}/argentina.png`;
 
     return (
-        <Html lang="es">
+        <Html lang="es" className="bg-gray-800">
             <Head>
                 <Favicons />
                 <meta name="apple-mobile-web-app-capable" content="yes" />
