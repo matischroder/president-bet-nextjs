@@ -57,7 +57,7 @@ const Candidate: React.FC<Props> = ({
         newValue === '' ? setPercentage('') : setPercentage(newValue);
     };
     return (
-        <div className="my-4 flex flex-row justify-around w-full select-none touch-none">
+        <div className="my-4 flex flex-row justify-around w-full select-none">
             <div className={`w-[60px] aspect-square z-0 flex rounded-full justify-center`}
                 style={{
                     background: `linear-gradient(to bottom, ${backgroundColor.map(color => color).join(', ')})`,
