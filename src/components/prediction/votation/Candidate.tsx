@@ -46,7 +46,7 @@ const Candidate: React.FC<Props> = ({
         newValue === '' ? setPercentage('') : setPercentage(newValue);
     };
     return (
-        <div className="my-4 flex flex-row justify-around w-full select-none">
+        <div className="my-4 flex flex-row justify-around w-full select-none touch-none">
             <div className="w-16 h-16 aspect-square z-0 flex rounded-full justify-center" style={{ backgroundImage: `linear-gradient(to bottom, ${backgroundColor.map(color => color).join(', ')})` }}>
                 <Image src={image} alt={candidateName} className="self-center bg-black w-14 h-14 rounded-full z-10" width={57} height={57} />
             </div>
