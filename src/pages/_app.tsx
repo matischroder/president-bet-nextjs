@@ -1,16 +1,17 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { AuthProvider } from "@/hook/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/global/Navbar";
 import { Toaster } from "sonner";
 import AuthStateChanged from "@/layout/AuthStateChange";
+import Modal from "@/components/home/Modal";
 
 export default function App({ Component, pageProps }: AppProps) {
   // logic to open navbar
   const [isOpen, setIsOpen] = useState(false);
   const [startX, setStartX] = useState<number | null>(null);
-
+  const [showModal, setShowModal] = useState<boolean>(false)
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     setStartX(e.touches[0].clientX);
@@ -34,6 +35,13 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   };
 
+  useEffect(() => {
+    if (window)
+      if (!window.matchMedia('(display-mode: standalone)').matches) {
+        setShowModal(true)
+      }
+  }, [])
+
   const handleTouchEnd = () => {
     setStartX(null);
   };
@@ -52,6 +60,7 @@ export default function App({ Component, pageProps }: AppProps) {
               isOpen={isOpen}
               setIsOpen={setIsOpen}
             />
+            {showModal && <Modal setModal={setShowModal} />}
             <Component className="blur-lg" {...pageProps} />
             <Toaster />
           </div>
