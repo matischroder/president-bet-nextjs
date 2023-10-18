@@ -64,7 +64,7 @@ function Login({ auth }: { auth: any }) {
                         width={55}
                         height={55}
                         className="self-center "
-                        alt="Pluma Icon"
+                        alt="Argentin Icon"
                     />
                     <h2 className="text-center mt-2 text-2xl tracking-wide">
                         Prode de las Elecciones Argentinas
@@ -72,7 +72,7 @@ function Login({ auth }: { auth: any }) {
                     <p className="text-center my-5">
                         Inicie sesión con su cuenta para continuar
                     </p>
-                    <div className="h-2/5 self-center">
+                    <div className="h-1/6 self-center">
                         {
                             providers.map((provider, index) => (
                                 <LoginButton
