@@ -59,14 +59,14 @@ const Candidate: React.FC<Props> = ({
                 <p className="absolute select-none text-sm font-bold ml-2">{candidateName}</p>
                 <div className="relative flex items-center justify-center h-full">
                     <Slider
-                        className="w-full"
+                        className="w-full min-h-[20px] flex items-center justify-center"
                         value={Number(percentage)}
                         onChange={(value) => typeof value === "number" && setPercentage(value.toFixed(1))}
                         min={0}
                         max={100}
                         step={0.1}
                         trackStyle={{ backgroundColor: '#FFFFFF' }}
-                        handleStyle={{ borderColor: '#FFFFFF', backgroundColor: '#FFFFFF' }}
+                        handleStyle={{ borderColor: '#FFFFFF', backgroundColor: '#FFFFFF', height: '18px', width: '18px', margin: '0' }}
                     />
                 </div>
             </div>
