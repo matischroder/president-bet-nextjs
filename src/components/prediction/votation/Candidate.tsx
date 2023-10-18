@@ -46,20 +46,16 @@ const Candidate: React.FC<Props> = ({
         newValue === '' ? setPercentage('') : setPercentage(newValue);
     };
     return (
-        <div className="my-4 flex flex-row justify-around w-full">
-            <div className={`w-[60px] aspect-square z-0 flex rounded-full justify-center`}
-                style={{
-                    background: `linear-gradient(to bottom, ${backgroundColor.map(color => color).join(', ')})`,
-                }}
-            >
+        <div className="my-4 flex flex-row justify-around w-full select-none">
+            <div className="w-16 h-16 aspect-square z-0 flex rounded-full justify-center" style={{ backgroundImage: `linear-gradient(to bottom, ${backgroundColor.map(color => color).join(', ')})` }}>
                 <Image src={image} alt={candidateName} className="self-center bg-black w-14 h-14 rounded-full z-10" width={57} height={57} />
             </div>
 
-            <div className='basis-[60%] px-5'>
-                <p className='absolute select-none text-xs font-bold ml-2'>{candidateName}</p>
-                <div className='relative flex items-center justify-center h-full'>
+            <div className="w-3/5 px-5 select-none">
+                <p className="absolute select-none text-xs font-bold ml-2">{candidateName}</p>
+                <div className="relative flex items-center justify-center h-full">
                     <Slider
-                        className=""
+                        className="w-full"
                         value={Number(percentage)}
                         onChange={(value) => typeof value === "number" && setPercentage(value.toFixed(1))}
                         min={0}
@@ -73,7 +69,7 @@ const Candidate: React.FC<Props> = ({
             <input
                 type="number"
                 inputMode="decimal"
-                className="bg-white text-black w-14 text-center text-base my-4 rounded-md"
+                className="w-16 bg-white text-black text-center text-base my-4 rounded-md"
                 value={percentage.toString()}
                 onChange={handleInput}
             />
