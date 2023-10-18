@@ -83,7 +83,7 @@ const Candidate: React.FC<Props> = ({
             </div>
             <input
                 type="text"
-                inputMode="numeric"
+                inputMode="decimal"
                 pattern="[0-9,.]*"
                 className="w-16 bg-white text-black text-center text-base my-4 rounded-md"
                 value={percentage.toString()}
