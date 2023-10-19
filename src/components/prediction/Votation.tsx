@@ -81,7 +81,7 @@ export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
                 showUsersDetails ?
                     <UsersDetails nombre={torneo.nombre} usersData={usersDetails} setShowUsersDetails={setShowUsersDetails} /> :
                     <>
-                        <div className="flex items-center relative">
+                        <div className="flex items-center relative select-none">
                             <Image alt='back' src={"/back.png"} width={30} height={30} className="absolute hover:underline cursor-pointer"
                                 onClick={() => setSelectedTorneo(null)}
                             />
