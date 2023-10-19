@@ -45,6 +45,11 @@ const Candidate: React.FC<Props> = ({
             }
         }
 
+        // Zero fixes
+        if (/^0[0-9]+$/.test(newValue)) {
+            newValue = newValue.slice(1);
+        }
+
         // Limit
         if (Number(newValue) > 100) return setPercentage(newValue.slice(0, -1));
 
