@@ -62,7 +62,7 @@ const NuevoTorneo: React.FC = () => {
             }
         } else {
             toast.error('No se puede compartir desde este dispositivo')
-            console.log('Web Share API is not supported in this browser.');
+            // console.log('Web Share API is not supported in this browser.');
         }
     };
 

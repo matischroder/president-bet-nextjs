@@ -21,7 +21,7 @@ export const getUsuariosTorneos = async (userId: string, torneoId: string) => {
             pronosticos.push(doc.data() as usersData);
         });
 
-        console.log("pronosticos", pronosticos);
+        // console.log("pronosticos", pronosticos);
 
         // Return the pronosticos data if needed.
         return pronosticos;

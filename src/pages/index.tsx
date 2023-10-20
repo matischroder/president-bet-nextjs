@@ -41,6 +41,7 @@ const Root = () => {
         <Votation
           torneo={selectedTorneo}
           setSelectedTorneo={setSelectedTorneo}
+          setTorneos={setTorneos}
         />
         :
         <>

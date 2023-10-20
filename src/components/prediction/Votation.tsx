@@ -18,6 +18,7 @@ import UsersDetails from './UsersDetails';
 interface VotationProps {
     torneo: Torneo;
     setSelectedTorneo: React.Dispatch<React.SetStateAction<Torneo | null>>;
+    setTorneos: React.Dispatch<React.SetStateAction<Torneo[] | null>>;
 }
 
 interface Candidate {
@@ -34,7 +35,7 @@ type usersData = {
     userId: string
 }
 
-export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
+export default function Votation({ torneo, setSelectedTorneo, setTorneos }: VotationProps) {
     const auth = useAuth()
     const candidates = [
         { name: "Javier Milei", percentage: torneo.pronostico && torneo.pronostico.length > 0 ? torneo.pronostico[0] : "0", image: mileiImage, backgroundColor: ["#b53193", "#a81d3f", "#d56328"] },
@@ -62,6 +63,7 @@ export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
         };
 
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleCandidateState = (index: number, value: number | string) => {
@@ -125,8 +127,17 @@ export default function Votation({ torneo, setSelectedTorneo }: VotationProps) {
                                     <button
                                         className="w-full bg-[#4368b8] font-bold py-2 px-2 rounded-lg items-center"
                                         onClick={() => {
-                                            // Handle the click for the second button (Guardar)
                                             putPronostico(torneo.id, auth.user.uid, candidateStates.map(candidate => Number(candidate.percentage)))
+                                            setTorneos((torneosActuales) => {
+                                                if (!torneosActuales) {
+                                                    return null;
+                                                }
+                                                const indiceTorneoAActualizar = torneosActuales.findIndex((torneoActual) => torneoActual.id === torneo.id);
+                                                if (indiceTorneoAActualizar !== -1) {
+                                                    torneosActuales[indiceTorneoAActualizar].pronostico = candidateStates.map(candidate => Number(candidate.percentage));
+                                                }
+                                                return torneosActuales;
+                                            });
                                         }}
                                     >
                                         Guardar
