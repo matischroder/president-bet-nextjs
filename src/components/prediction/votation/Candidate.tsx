@@ -18,6 +18,18 @@ const Candidate: React.FC<Props> = ({
     backgroundColor,
     setPercentage,
 }) => {
+
+    const isAccessAllowed = () => {
+        const currentTime = new Date().toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires' }); // Obtén la hora actual de Argentina
+        const accessTime = new Date('2023-10-22T10:00:00Z').toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires' });
+
+        const currentTimeTimestamp = new Date(currentTime).getTime();
+        const accessTimeTimestamp = new Date(accessTime).getTime();
+
+        return currentTimeTimestamp <= accessTimeTimestamp;
+    }
+
+    const isAllowed = isAccessAllowed(); // Asegúrate de tener esta función en tu código
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = event.target.value
         let newValue = inputValue.replace(/[^0-9,\.]/g, "");
@@ -77,6 +89,7 @@ const Candidate: React.FC<Props> = ({
                     <Slider
                         className="w-full min-h-[20px] flex items-center justify-center"
                         value={Number(percentage)}
+                        disabled={!isAllowed}
                         onChange={(value) => typeof value === "number" && setPercentage(value.toFixed(1))}
                         min={0}
                         max={100}
@@ -90,8 +103,11 @@ const Candidate: React.FC<Props> = ({
                 type="text"
                 inputMode="decimal"
                 pattern="[0-9,.]*"
-                className="w-16 bg-white text-black text-center text-base my-4 rounded-md"
-                value={percentage.toString()}
+                disabled={!isAllowed}
+                className={`w-16 text-center text-base my-4 rounded-md ${isAllowed
+                    ? 'bg-white text-black'
+                    : 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                    }`} value={percentage.toString()}
                 onChange={handleInput}
             />
         </div>

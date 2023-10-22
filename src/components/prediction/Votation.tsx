@@ -51,6 +51,17 @@ export default function Votation({ torneo, setSelectedTorneo, setTorneos }: Vota
     const [showUsersDetails, setShowUsersDetails] = useState<boolean>(false);
     const [usersDetails, setUsersDetails] = useState<usersData[]>([]);
 
+    const isAccessAllowed = () => {
+        const currentTime = new Date().toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires' }); // Obtén la hora actual de Argentina
+        const accessTime = new Date('2023-10-22T10:00:00Z').toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires' });
+
+        const currentTimeTimestamp = new Date(currentTime).getTime();
+        const accessTimeTimestamp = new Date(accessTime).getTime();
+
+        return currentTimeTimestamp <= accessTimeTimestamp;
+    }
+
+    const isAllowed = isAccessAllowed(); // Asegúrate de tener esta función en tu código
 
     useEffect(() => {
         const fetchData = async () => {
@@ -125,7 +136,11 @@ export default function Votation({ torneo, setSelectedTorneo, setTorneos }: Vota
 
                                 <div className="flex-1 m-1">
                                     <button
-                                        className="w-full bg-[#4368b8] font-bold py-2 px-2 rounded-lg items-center"
+                                        className={`w-full font-bold py-2 px-2 rounded-lg items-center ${isAllowed
+                                            ? 'bg-[#4368b8] hover:bg-[nuevo-color] cursor-pointer'
+                                            : 'bg-gray-400 cursor-not-allowed'
+                                            }`}
+                                        disabled={!isAllowed}
                                         onClick={() => {
                                             putPronostico(torneo.id, auth.user.uid, candidateStates.map(candidate => Number(candidate.percentage)))
                                             setTorneos((torneosActuales) => {
