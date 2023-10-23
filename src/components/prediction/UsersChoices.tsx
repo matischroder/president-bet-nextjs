@@ -54,25 +54,26 @@ const UsersChoices = ({ resultados, userData, setSelectedUser }: UsersDetailsPro
                             <td>{Math.abs(userData.pronostico[0] - resultados[0]).toFixed(2)}</td>
                         </tr>
                         <tr>
-                            <td>Massa</td>
+                            <td>Bullrich</td>
                             <td>{resultados[1]}</td>
                             <td>{userData.pronostico[1]}</td>
                             <td>{Math.abs(userData.pronostico[1] - resultados[1]).toFixed(2)}</td>
                         </tr>
                         <tr>
-                            <td>Bullrich</td>
+                            <td>Massa</td>
+
                             <td>{resultados[2]}</td>
                             <td>{userData.pronostico[2]}</td>
                             <td>{Math.abs(userData.pronostico[2] - resultados[2]).toFixed(2)}</td>
                         </tr>
                         <tr>
-                            <td>Bregman</td>
+                            <td>Schiaretti</td>
                             <td>{resultados[3]}</td>
                             <td>{userData.pronostico[3]}</td>
                             <td>{Math.abs(userData.pronostico[3] - resultados[3]).toFixed(2)}</td>
                         </tr>
                         <tr>
-                            <td>Schiaretti</td>
+                            <td>Bregman</td>
                             <td>{resultados[4]}</td>
                             <td>{userData.pronostico[4]}</td>
                             <td>{Math.abs(userData.pronostico[4] - resultados[4]).toFixed(2)}</td>
