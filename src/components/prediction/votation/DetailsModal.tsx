@@ -14,8 +14,6 @@ interface DetailsModalProps {
 
 
 const DetailsModal: React.FC<DetailsModalProps> = ({ isOpen, onClose, torneo }) => {
-    const url = "http://localhost:3000/"
-
     const copyToClipboard = async () => {
         try {
             if (torneo) {
