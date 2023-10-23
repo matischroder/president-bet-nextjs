@@ -21,8 +21,8 @@ const UsersDetails = ({ nombre, usersData, setShowUsersDetails }: UsersDetailsPr
     const handleUserClick = (user: UsersData) => {
         setSelectedUser(user);
     };
-
-    const resultados = [30.51, 23.61, 35.9, 7.34, 2.62, 1.89]
+    // milei bullrich massa schiaretti bregman blanco
+    const resultados = [30.39, 23.68, 36.05, 7.22, 2.64, 1.92]
 
     // Set the target date and time (October 23, 2023, 12:00 PM -3 UTC)
     const targetDate = new Date('2023-10-23T12:00:00-03:00');
