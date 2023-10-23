@@ -22,7 +22,7 @@ const UsersDetails = ({ nombre, usersData, setShowUsersDetails }: UsersDetailsPr
         setSelectedUser(user);
     };
     // milei bullrich massa schiaretti bregman blanco
-    const resultados = [30.03, 23.83, 36.62, 6.81, 2.69, 2.02]
+    const resultados = [29.98, 23.83, 36.68, 6.78, 2.70, 2.04]
 
     // Set the target date and time (October 23, 2023, 12:00 PM -3 UTC)
     const targetDate = new Date('2023-10-23T12:00:00-03:00');
